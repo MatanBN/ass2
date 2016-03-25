@@ -9,6 +9,11 @@ public class Rectangle {
     private int width;
     private int height;
     private Color c;
+    
+    public Rectangle(int width, int height) {
+        this.width = width;
+        this.height = height;
+    }
 
     public Rectangle(int width, int height, Color c) {
         this.width = width;

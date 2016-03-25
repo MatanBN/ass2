@@ -1,5 +1,7 @@
 import biuoop.DrawSurface;
 import biuoop.GUI;
+import biuoop.Sleeper;
+
 import java.awt.Color;
 
 /**
@@ -21,21 +23,45 @@ public class MultipleFramesBouncingBallsAnimation {
 	public static void main(String[] args) {
 		// Create a window with the title "Hanging Balls!"
 		// which is 1000 pixels wide and 1000 pixels high.
-		GUI gui = new GUI("Hanging Balls!", 1000, 1000);
+		GUI gui = new GUI("Hanging Balls!", 700, 700);
 		DrawSurface d = gui.getDrawSurface();
 		Rectangle[] recs = new Rectangle[2];
 		recs[0] = new Rectangle(50, 50, 450, 450, Color.gray);
 		recs[1] = new Rectangle(450, 450, 150, 150, Color.yellow);
-		recs[0].drawOn(d);
-		recs[1].drawOn(d);
 		gui.show(d);
-		if (args.length == 0) {
-			return;
-		}
-		Ball[][] balls = mergeBalls(args, recs);
+		MultipleFramesBouncingBallsAnimation b = new MultipleFramesBouncingBallsAnimation();
+		Surface[] s = b.mergeBalls(args, recs);
 		// Draw and animate the balls.
-		BouncingBallAnimation.animateBalls(balls, gui);
+		b.animateBalls(s, gui);
 	}
+
+	/**
+	 * animateBalls animates the balls on the DrawSurfaces given to it.
+	 *
+	 * @param balls
+	 *            a 2-d array of balls which will include the balls each row
+	 *            will include the array of balls to draw on a specific
+	 *            DrawSurface.
+	 * @param gui
+	 *            an array of guis which will include the guis to draw the balls
+	 *            on.
+	 */
+	public void animateBalls(Surface[] surfaces, GUI gui) {
+		Sleeper sleeper = new Sleeper();
+		while (true) {
+			DrawSurface d = gui.getDrawSurface();
+			// A for loop to draw on all of the surfaces needed.
+			// A loop to draw all the balls needed.
+			for (int i = 0; i < surfaces.length; ++i) {
+				surfaces[i].drawFrame(d);
+				surfaces[i].drawBalls(d);
+				surfaces[i].moveBalls();
+			}
+			gui.show(d);
+			sleeper.sleepFor(50); // wait for 50 milliseconds.
+		}
+	}
+	
 
 	/**
 	 * mergeBalls divides in an even division balls according to the number of
@@ -49,15 +75,20 @@ public class MultipleFramesBouncingBallsAnimation {
 	 *            on.
 	 * @return a 2-d array of balls.
 	 */
-	public static Ball[][] mergeBalls(String[] args, Rectangle[] boundaries) {
+	public Surface[] mergeBalls(String[] args, Rectangle[] boundaries) {
+		MultipleBouncingBallsAnimation m = new MultipleBouncingBallsAnimation();
 		int numberOfFrames = boundaries.length;
-		int numberOfBalls = args.length / boundaries.length;
-		Ball[][] balls = new Ball[numberOfFrames][numberOfBalls];
+		int numberOfBalls = args.length / numberOfFrames;
+		Surface[] s = new Surface[numberOfFrames];
 		// Divide the balls in a 2-d array according to the number of frames.
 		for (int i = 0; i < numberOfFrames; ++i) {
-			balls[i] = MultipleBouncingBallsAnimation.getBalls(args, i * args.length / boundaries.length,
-					(i + 1) * args.length / boundaries.length, boundaries[i]);
+			String newArgs[] = new String[numberOfBalls];
+			int takeBallsUntil = numberOfBalls * (i + 1);
+			for (int j = i * numberOfBalls, count = 0; j < takeBallsUntil; ++j, ++count) {
+				newArgs[count] = args[j];
+			}
+			s[i] = m.getBalls(newArgs, boundaries[i]);
 		}
-		return balls;
+		return s;
 	}
 }

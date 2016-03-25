@@ -6,7 +6,6 @@ import java.awt.Color;
 
 /**
  * The AbstractArtDrawing class draws 10 lines with blue circles in their middle and red circles on each intersection.
- *
  * @author Matan Ben Noach Nir Ben Shalom
  * @version 1.0 19 May 2016
  */
@@ -23,10 +22,19 @@ public class AbstractArtDrawing {
         Line[] lines = new Line[10];
         // The loop creates 10 random lines and draws them.
         for (int i = 0; i < 10; ++i) {
-            lines[i] = generateRandomLine();
+            lines[i] = generateRandomLine(d);
             drawLine(lines[i], d);
         }
+        drawIntercectionPoints(lines, d);
+        gui.show(d);
+    }
 
+    /**
+     * drawIntercectionPoints method draws all of the intersection points between the lines given to it.
+     * @param lines the array of lines that can intersect.
+     * @param d the DrawSurface the draw the intersection points on.
+     */
+    public void drawIntercectionPoints(Line[] lines, DrawSurface d) {
         // The double for loop draws a red circle around each intersection.
         for (int i = 0; i < 10; ++i) {
             for (int j = i + 1; j < 10; j++) {
@@ -38,22 +46,21 @@ public class AbstractArtDrawing {
                 }
             }
         }
-        gui.show(d);
     }
 
     /**
      * generateRandomLine method creates a random line.
-     *
+     * @param d the DrawSurface to create the line on.
      * @return The random line.
      */
-    public Line generateRandomLine() {
+    public Line generateRandomLine(DrawSurface d) {
         Random rand = new Random();
-        return new Line(rand.nextInt(400) + 1, rand.nextInt(300) + 1, rand.nextInt(400) + 1, rand.nextInt(300) + 1);
+        return new Line(rand.nextInt(d.getWidth()) + 1, rand.nextInt(d.getHeight()) + 1, rand.nextInt(d.getWidth()) + 1,
+                rand.nextInt(d.getHeight()) + 1);
     }
 
     /**
      * drawLine method draws a line and a blue circle in the line middle point.
-     *
      * @param l the Line to draw.
      * @param d the DrawSurface to draw on.
      */
@@ -65,11 +72,10 @@ public class AbstractArtDrawing {
 
     /**
      * drawCircle method draws a circle.
-     *
-     * @param p      the coordinates to draw the circle.
-     * @param c      the color to draw the circle.
+     * @param p the coordinates to draw the circle.
+     * @param c the color to draw the circle.
      * @param radius the radius of the circle to draw.
-     * @param d      the DrawSurface to draw the circle on.
+     * @param d the DrawSurface to draw the circle on.
      */
     void drawCircle(Point p, Color c, int radius, DrawSurface d) {
         d.setColor(c);
@@ -79,8 +85,7 @@ public class AbstractArtDrawing {
 
     /**
      * The main method.
-     *
-     * @param args input from command line.
+     * @param args the input from command line.
      */
     public static void main(String[] args) {
         AbstractArtDrawing painting = new AbstractArtDrawing();
