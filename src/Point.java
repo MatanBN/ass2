@@ -1,7 +1,6 @@
 /**
  * The Point class has two coordinates, x and and y and has methods to calculate the distance between to points and
  * check whether two points are equal.
- *
  * @author Matan Ben Noach Nir Ben Shalom
  * @version 1.0 19 May 2016
  */
@@ -11,7 +10,6 @@ public class Point {
 
     /**
      * Point creates a point with given x and y values.
-     *
      * @param x the x value of the point.
      * @param y the y value of the point.
      */
@@ -22,7 +20,6 @@ public class Point {
 
     /**
      * distance method returns the distance of this point to the other point.
-     *
      * @param other the second point to check it's distance from the first one.
      * @return double with the value of the distance between the points.
      */
@@ -32,7 +29,6 @@ public class Point {
 
     /**
      * equals method checks whether 2 points are the same or not.
-     *
      * @param other the second point to check if it's the same as the first one.
      * @return true if the points are equal, false otherwise.
      */
@@ -45,7 +41,6 @@ public class Point {
 
     /**
      * getX method returns the x value of the point.
-     *
      * @return x value of the point.
      */
     public double getX() {
@@ -54,7 +49,6 @@ public class Point {
 
     /**
      * getY method returns the y value of the point.
-     *
      * @return y value of the point.
      */
     public double getY() {

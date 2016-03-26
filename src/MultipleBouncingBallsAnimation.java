@@ -53,8 +53,10 @@ public class MultipleBouncingBallsAnimation {
      * @return the new surface to draw the balls on.
      * @throws ArithmeticException if a radius is 0.
      * @throws IndexOutOfBoundsException if no balls were entered.
+     * @throws IllegalArgumentException if a radius of a ball is to big to fit in the frame.
      */
-    public Surface getBalls(String[] args, Rectangle bound) throws ArithmeticException, IndexOutOfBoundsException {
+    public Surface getBalls(String[] args, Rectangle bound)
+            throws ArithmeticException, IndexOutOfBoundsException, IllegalArgumentException {
         Ball[] balls = new Ball[args.length];
         int radiusLimit = 50;
         Random r = new Random();
@@ -62,27 +64,32 @@ public class MultipleBouncingBallsAnimation {
         for (int i = 0; i < balls.length; ++i) {
             int radius = Integer.parseInt(args[i]);
             try {
-            // Create a ball in a random in the frame of the bound.
-            balls[i] = new Ball((r.nextInt(bound.getWidth() - 2 * radius)) + radius + bound.getX(),
-                    r.nextInt(bound.getHeight() - 2 * radius) + radius + bound.getY(), radius, Color.blue);
+                // Create a random center point for the ball in the frame of the bounds.
+                int centerX = r.nextInt(bound.getWidth() - 2 * radius) + radius + bound.getX();
+                int centerY = r.nextInt(bound.getHeight() - 2 * radius) + radius + bound.getY();
+                try {
+                    balls[i] = new Ball(centerX, centerY, radius, Color.blue);
+                } catch (IndexOutOfBoundsException e) {
+                    System.out.println("No balls entered");
+                }
+                /*
+                 * Set the velocity according to the radius limit (the speed starts with 50 and gets divided by the
+                 * radius, so the bigger the radius slower the ball.
+                 */
+                try {
+                    balls[i].setVelocity(radiusLimit / radius, radiusLimit / radius);
+                } catch (ArithmeticException e) {
+                    balls[i].setVelocity(0, 0);
+                }
+                // Check if the radius reached the limit.
+                if (radius >= radiusLimit) {
+                    // If so the velocity is one.
+                    balls[i].setVelocity(1, 1);
+                }
+            } catch (IllegalArgumentException e) {
+                System.out.println("Ball #" + i + "radius is to big for the frame.");
             }
-            catch (IndexOutOfBoundsException e) {
-                System.out.println("No balls entered");
-            }
-            /*
-             * Set the velocity according to the radius limit (the speed starts with 50 and gets divided by the radius,
-             * so the bigger the radius slower the ball.
-             */
-            try {
-                balls[i].setVelocity(radiusLimit / radius, radiusLimit / radius);
-            } catch (ArithmeticException e) {
-                balls[i].setVelocity(0, 0);
-            }
-            // Check if the radius reached the limit.
-            if (radius >= radiusLimit) {
-                // If so the velocity is one.
-                balls[i].setVelocity(1, 1);
-            }
+
         }
         return new Surface(bound, balls);
     }
