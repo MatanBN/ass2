@@ -8,7 +8,7 @@ import biuoop.DrawSurface;
  */
 public class Surface {
     private Rectangle frame; // The frame of the surface.
-    private Ball balls[]; // The balls of the surface.
+    private Ball[] balls; // The balls of the surface.
 
     /**
      * Surface is the constructor and creates the surface according to the user's parameters.

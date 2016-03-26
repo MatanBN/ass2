@@ -20,7 +20,6 @@ public class MultipleFramesBouncingBallsAnimation {
         // Create a window with the title "Hanging Balls!"
         // which is 700 pixels wide and 700 pixels high.
         GUI gui = new GUI("Hanging Balls!", 700, 700);
-        DrawSurface d = gui.getDrawSurface();
         // Create the frames for the balls.
         Rectangle[] recs = new Rectangle[2];
         recs[0] = new Rectangle(50, 50, 450, 450, Color.gray);
@@ -65,10 +64,22 @@ public class MultipleFramesBouncingBallsAnimation {
         int numberOfFrames = boundaries.length; // The number of frames needed.
         int numberOfBalls = args.length / numberOfFrames; // The number of balls per each frame.
         Surface[] s = new Surface[numberOfFrames];
+        // Handle the case of an uneven division (give one more to each one of the first frames until the ball run out.
+        int ballsLeftOver = args.length % numberOfFrames;
+        int addToEven = 0;
         // Divide the balls in a each surface according to the number of frames.
         for (int i = 0; i < numberOfFrames; ++i) {
-            String newArgs[] = new String[numberOfBalls];
-            int takeBallsUntil = numberOfBalls * (i + 1);
+            // Check if there was left over balls in the division to frames.
+            if (ballsLeftOver != 0) {
+                // Add one more ball to the ith frame.
+                addToEven = 1;
+                // Subtract one from the left over balls.
+                --ballsLeftOver;
+            } else {
+                addToEven = 0;
+            }
+            String[] newArgs = new String[numberOfBalls + addToEven];
+            int takeBallsUntil = numberOfBalls * (i + 1) + addToEven;
             for (int j = i * numberOfBalls, count = 0; j < takeBallsUntil; ++j, ++count) {
                 newArgs[count] = args[j];
             }
