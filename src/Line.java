@@ -10,7 +10,7 @@ public class Line {
     /**
      * Line is the constructor and creates the line with 2 given points.
      * @param start is the first point of the line.
-     * @param end   is the last point of the line.
+     * @param end is the last point of the line.
      */
     public Line(Point start, Point end) {
         this.start = start;

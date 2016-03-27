@@ -40,6 +40,7 @@ public class Surface {
         for (int i = 0; i < balls.length; ++i) {
             try {
                 balls[i].drawOn(d);
+                // If one the been hasn't been initialized yet.
             } catch (NullPointerException e) {
                 System.out.println("Ball #" + i + " Not found");
             }
@@ -74,6 +75,7 @@ public class Surface {
                 setBrakeSpeed(balls[i]);
                 balls[i].moveOneStep();
                 balls[i].setVelocity(savedV);
+                // If the velocity hasn't been initialized yet.
             } catch (NullPointerException e) {
                 System.out.println("Ball #" + i + " Velcotiy isn't initialized");
             }

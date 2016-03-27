@@ -69,6 +69,7 @@ public class MultipleBouncingBallsAnimation {
                 int centerY = r.nextInt(bound.getHeight() - 2 * radius) + radius + bound.getY();
                 try {
                     balls[i] = new Ball(centerX, centerY, radius, Color.blue);
+                    // If no balls were entered.
                 } catch (IndexOutOfBoundsException e) {
                     System.out.println("No balls entered");
                 }
@@ -78,6 +79,7 @@ public class MultipleBouncingBallsAnimation {
                  */
                 try {
                     balls[i].setVelocity(radiusLimit / radius, radiusLimit / radius);
+                    // If a radius that is equal to 0 was entered.
                 } catch (ArithmeticException e) {
                     balls[i].setVelocity(0, 0);
                 }
@@ -86,6 +88,7 @@ public class MultipleBouncingBallsAnimation {
                     // If so the velocity is one.
                     balls[i].setVelocity(1, 1);
                 }
+                // If a radius that was too big for the frame was entered.
             } catch (IllegalArgumentException e) {
                 System.out.println("Ball #" + i + "radius is to big for the frame.");
             }

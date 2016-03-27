@@ -45,7 +45,7 @@ public class Rectangle {
     /**
      * Rectangle is the constructor and creates the rectangle according to the user parameters.
      * @param x the x coordinate to start the rectangle from.
-     * @param y the y coordinate to start the rectnagle from.
+     * @param y the y coordinate to start the rectangle from.
      * @param width the desired width of the rectangle.
      * @param height the desired height of the rectangle.
      * @param c the desired color of the rectangle.
@@ -146,6 +146,7 @@ public class Rectangle {
         try {
             d.setColor(this.color);
             d.drawRectangle(this.x, this.y, this.width, this.height);
+            // If the color of the rectangle hasn't been initialized yet.
         } catch (NullPointerException e) {
             System.out.println("You must set a color for the rectangle in order to draw it.");
         }
